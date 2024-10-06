@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
@@ -41,6 +42,11 @@ public class ProductController {
         Optional<Product> product = productService.getProductById(id);
         return product.map(p -> ResponseEntity.ok(ProductMapper.toProductDTO(p)))
                 .orElse(ResponseEntity.notFound().build());
+    }
+    @GetMapping("/autocomplete")
+    public ResponseEntity<List<String>> getProductNames(@RequestParam String query) {
+        List<String> productNames = productService.findProductNamesByQuery(query);
+        return ResponseEntity.ok(productNames);
     }
 
     @PostMapping
