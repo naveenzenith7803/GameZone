@@ -1,5 +1,6 @@
 package com.gamezone.Backend.mapper;
 
+import com.gamezone.Backend.Entity.Cart;
 import com.gamezone.Backend.Entity.CartItem;
 import com.gamezone.Backend.Entity.Product;
 import com.gamezone.Backend.dto.CartItemDTO;
@@ -27,6 +28,12 @@ public class CartItemMapper {
             Product product = new Product();
             product.setId(cartItemDTO.getProductId());
             cartItem.setProduct(product);
+        }
+
+        if (cartItemDTO.getCartId() != null) {
+            Cart cart = new Cart(); // Assuming you have a Cart class
+            cart.setId(cartItemDTO.getCartId()); // Set the cart ID
+            cartItem.setCart(cart); // Associate the cart with the cart item
         }
 
         return cartItem;

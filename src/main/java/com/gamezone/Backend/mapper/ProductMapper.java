@@ -1,5 +1,8 @@
 package com.gamezone.Backend.mapper;
 
+import com.gamezone.Backend.Entity.Cart;
+import com.gamezone.Backend.Entity.Category;
+import com.gamezone.Backend.Entity.Image;
 import com.gamezone.Backend.Entity.Product;
 import com.gamezone.Backend.dto.ProductDTO;
 
@@ -27,6 +30,17 @@ public class ProductMapper {
         product.setPrice(productDTO.getPrice());
         product.setQuantity(productDTO.getQuantity());
         // Here you might need to set category and image entities from their IDs if needed
+        if (productDTO.getCategoryId() != null) {
+            Category category = new Category();
+            category.setId(productDTO.getCategoryId());
+            product.setCategory(category);
+        }
+
+        if (productDTO.getImageId() != null) {
+            Image image = new Image();
+            image.setId(productDTO.getImageId());
+            product.setImage(image);
+        }
         return product;
     }
 }

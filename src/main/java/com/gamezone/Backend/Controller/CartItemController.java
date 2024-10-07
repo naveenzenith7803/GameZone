@@ -34,8 +34,20 @@ public class CartItemController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/cart/{cartId}")
+    public ResponseEntity<List<CartItemDTO>> getCartItemsByCartId(@PathVariable Long cartId) {
+        List<CartItem> cartItems = cartItemService.getCartItemsByCartId(cartId);
+        List<CartItemDTO> cartItemDTOs = cartItems.stream()
+                .map(CartItemMapper::toCartItemDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(cartItemDTOs);
+    }
+
     @PostMapping
     public CartItemDTO createCartItem(@RequestBody CartItemDTO cartItemDTO) {
+        System.out.println(cartItemDTO.getCartId());
+        System.out.println(cartItemDTO.getProductId());
+        System.out.println(cartItemDTO.getQuantity());
         CartItem cartItem = CartItemMapper.toCartItem(cartItemDTO);
         CartItem createdCartItem = cartItemService.createCartItem(cartItem);
         return CartItemMapper.toCartItemDTO(createdCartItem);

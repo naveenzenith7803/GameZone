@@ -51,6 +51,8 @@ public class ProductController {
 
     @PostMapping
     public ProductDTO createProduct(@RequestBody ProductDTO productDTO) {
+//        System.out.println(productDTO.getCategoryId());
+//        System.out.println(productDTO.getImageId());
         Product product = ProductMapper.toProduct(productDTO);
         Product createdProduct = productService.createProduct(product);
         return ProductMapper.toProductDTO(createdProduct);
