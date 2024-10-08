@@ -7,5 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class UserRoleDTO {
     private Long userId;
+    private String userName;
     private String role;
 }

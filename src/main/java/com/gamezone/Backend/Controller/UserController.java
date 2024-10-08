@@ -80,7 +80,7 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody UserLoginDTO userLoginDTO) {
         User user = userService.login(userLoginDTO.getEmail(), userLoginDTO.getPassword());
         if (user != null) {
-            return ResponseEntity.ok(new UserRoleDTO(user.getId(),user.getRole().toString()));
+            return ResponseEntity.ok(new UserRoleDTO(user.getId(),user.getUsername(),user.getRole().toString()));
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
     }
