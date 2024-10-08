@@ -26,6 +26,12 @@ public class CartController {
                 .map(CartMapper::toCartDTO)
                 .collect(Collectors.toList());
     }
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<CartDTO> getCartByUserId(@PathVariable Long userId) {
+        Optional<Cart> cart = cartService.getCartByUserId(userId);
+        return cart.map(c -> ResponseEntity.ok(CartMapper.toCartDTO(c)))
+                .orElse(ResponseEntity.notFound().build());
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<CartDTO> getCartById(@PathVariable Long id) {

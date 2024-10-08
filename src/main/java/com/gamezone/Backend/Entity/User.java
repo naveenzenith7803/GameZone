@@ -29,7 +29,8 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    private String role ="USER";
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.USER;
 
 
     // One user can have one cart

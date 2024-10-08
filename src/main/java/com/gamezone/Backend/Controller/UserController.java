@@ -1,11 +1,14 @@
 package com.gamezone.Backend.Controller;
 
+import com.gamezone.Backend.Entity.Cart;
 import com.gamezone.Backend.Entity.User;
+import com.gamezone.Backend.Service.CartService;
 import com.gamezone.Backend.Service.UserService;
-import com.gamezone.Backend.dto.UserCreateDTO;
-import com.gamezone.Backend.dto.UserDTO;
+import com.gamezone.Backend.dto.*;
+import com.gamezone.Backend.mapper.CartMapper;
 import com.gamezone.Backend.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +21,11 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CartService cartService;
+
+
 
     // Get all users (DTO)
     @GetMapping
@@ -41,6 +49,9 @@ public class UserController {
     public ResponseEntity<UserDTO> createUser(@RequestBody UserCreateDTO userCreateDTO) {
         User user = UserMapper.toUser(userCreateDTO);
         User createdUser = userService.createUser(user);
+        Cart cart=new Cart();
+        cart.setUser(createdUser);
+        cartService.createCart(cart);
         return ResponseEntity.ok(UserMapper.toUserDTO(createdUser));
     }
 
@@ -63,6 +74,15 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UserLoginDTO userLoginDTO) {
+        User user = userService.login(userLoginDTO.getEmail(), userLoginDTO.getPassword());
+        if (user != null) {
+            return ResponseEntity.ok(new UserRoleDTO(user.getId(),user.getRole().toString()));
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
     }
 }
 

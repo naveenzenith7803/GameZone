@@ -60,14 +60,12 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
-        try {
+            
             Product product = ProductMapper.toProduct(productDTO);
             product.setId(id); // Ensure we set the ID for the update
             Product updatedProduct = productService.updateProduct(id, product);
             return ResponseEntity.ok(ProductMapper.toProductDTO(updatedProduct));
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+
     }
 
     @DeleteMapping("/{id}")

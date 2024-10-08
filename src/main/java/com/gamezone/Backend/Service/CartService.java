@@ -31,6 +31,9 @@ public class CartService {
         // Update fields as necessary
         return cartRepository.save(cart);
     }
+    public Optional<Cart> getCartByUserId(Long userId) {
+        return Optional.ofNullable(cartRepository.findByUserId(userId));
+    }
 
     public void deleteCart(Long id) {
         cartRepository.deleteById(id);
